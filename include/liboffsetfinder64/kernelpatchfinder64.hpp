@@ -42,6 +42,11 @@ namespace tihmstar {
             std::vector<patch> get_amfi_patch(bool doApplyPatch = true); //don't use up nop space by multiple patches if this is set to true
 
             std::vector<patch> get_get_task_allow_patch();
+            
+            std::vector<patch> get_AMFI_10_patch();
+            std::vector<patch> get_AMFI_11_patch();
+            std::vector<patch> get_AMFI_12_patch();
+            std::vector<patch> get_AMFI_13_patch();
 
             
             
