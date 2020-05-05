@@ -512,9 +512,18 @@ std::vector<patch> kernelpatchfinder64::get_amfi_patch(bool doApplyPatch){
     return patches;
 }
 
-std::vector<patch> kernelpatchfinder64::get_AMFI_10_patch(){
+std::vector<patch> kernelpatchfinder64::get_AMFI_10_11_12_13_patch(){
     std::vector<patch> patches;
+    
+    uint32_t _vers;
+    
+    loc_t xnu = findstr("root:xnu-", false);
+    _vers = atoi((char*)&_buf[xnu-_base+9]);
+    
     printf("%s: Entering ...\n",__FUNCTION__);
+    
+    printf("%s: Kernel-%d inputted\n",__FUNCTION__, _vers);
+    
     loc_t ent_str = findstr("entitlements too small", true);
     printf("%s: Found Entitlements are too small str loc at %p\n",__FUNCTION__,ent_str);
     
@@ -526,86 +535,9 @@ std::vector<patch> kernelpatchfinder64::get_AMFI_10_patch(){
     while (++iter != insn::bl);
     while (++iter != insn::bl);
     
-    loc_t sub = iter().imm();
-    
-    printf("%s: Patching AMFI at %p\n",__FUNCTION__,sub);
-    
-    const char p[] ="\xE0\x03\x00\x32" /*ORR W0,WZR, #1*/ "\xC0\x03\x5F\xD6" /*ret*/;
-    patches.push_back({sub,p,sizeof(p)-1});
-    
-    printf("%s: Leaving...\n",__FUNCTION__);
-    
-    return patches;
-}
-
-std::vector<patch> kernelpatchfinder64::get_AMFI_11_patch(){
-    std::vector<patch> patches;
-    printf("%s: Entering ...\n",__FUNCTION__);
-    loc_t ent_str = findstr("entitlements too small", true);
-    printf("%s: Found Entitlements are too small str loc at %p\n",__FUNCTION__,ent_str);
-    
-    loc_t xref = find_literal_ref(ent_str);
-    printf("%s: Found Entitlements are too small str ref loc at %p\n",__FUNCTION__,xref);
-    
-    vmem iter(*_vmem,xref);
-    
-    while (++iter != insn::bl);
-    while (++iter != insn::bl);
-    while (++iter != insn::bl);
-    
-    loc_t sub = iter().imm();
-    
-    printf("%s: Patching AMFI at %p\n",__FUNCTION__,sub);
-    
-    const char p[] ="\xE0\x03\x00\x32" /*ORR W0,WZR, #1*/ "\xC0\x03\x5F\xD6" /*ret*/;
-    patches.push_back({sub,p,sizeof(p)-1});
-    
-    printf("%s: Leaving...\n",__FUNCTION__);
-    
-    return patches;
-}
-
-std::vector<patch> kernelpatchfinder64::get_AMFI_12_patch(){
-    std::vector<patch> patches;
-    printf("%s: Entering ...\n",__FUNCTION__);
-    loc_t ent_str = findstr("entitlements too small", true);
-    printf("%s: Found Entitlements are too small str loc at %p\n",__FUNCTION__,ent_str);
-    
-    loc_t xref = find_literal_ref(ent_str);
-    printf("%s: Found Entitlements are too small str ref loc at %p\n",__FUNCTION__,xref);
-    
-    vmem iter(*_vmem,xref);
-    
-    while (++iter != insn::bl);
-    while (++iter != insn::bl);
-    while (++iter != insn::bl);
-    
-    loc_t sub = iter().imm();
-    
-    printf("%s: Patching AMFI at %p\n",__FUNCTION__,sub);
-    
-    const char p[] ="\xE0\x03\x00\x32" /*ORR W0,WZR, #1*/ "\xC0\x03\x5F\xD6" /*ret*/;
-    patches.push_back({sub,p,sizeof(p)-1});
-    
-    printf("%s: Leaving...\n",__FUNCTION__);
-    
-    return patches;
-}
-
-std::vector<patch> kernelpatchfinder64::get_AMFI_13_patch(){
-    std::vector<patch> patches;
-    printf("%s: Entering ...\n",__FUNCTION__);
-    loc_t ent_str = findstr("entitlements too small", true);
-    printf("%s: Found Entitlements are too small str loc at %p\n",__FUNCTION__,ent_str);
-    
-    loc_t xref = find_literal_ref(ent_str);
-    printf("%s: Found Entitlements are too small str ref loc at %p\n",__FUNCTION__,xref);
-    
-    vmem iter(*_vmem,xref);
-    
-    while (++iter != insn::bl);
-    while (++iter != insn::bl);
-    while (++iter != insn::bl);
+    if(_vers>3789) {
+        while (++iter != insn::bl);
+    }
     
     loc_t sub = iter().imm();
     

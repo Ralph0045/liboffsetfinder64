@@ -43,12 +43,7 @@ namespace tihmstar {
 
             std::vector<patch> get_get_task_allow_patch();
             
-            std::vector<patch> get_AMFI_10_patch();
-            std::vector<patch> get_AMFI_11_patch();
-            std::vector<patch> get_AMFI_12_patch();
-            std::vector<patch> get_AMFI_13_patch();
-
-            
+            std::vector<patch> get_AMFI_10_11_12_13_patch();
             
             //        /*------------------------ v0rtex -------------------------- */
             //        offsetfinder64::loc_t find_zone_map();
