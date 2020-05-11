@@ -32,6 +32,7 @@ namespace tihmstar {
                 disable IM4M value validation (BNCH, ECID ...)
              */
             std::vector<patch> get_sigcheck_patch();
+            std::vector<patch> get_sigcheck_patch_13_4();
             
             /*
                make kernel boot with these bootargs
